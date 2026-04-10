@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html class="dark" lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Use Cases | ABYSS Fluid AI Agent - Itumo Inc.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&amp;family=Manrope:wght@400;600&amp;family=Inter:wght@400;700&amp;family=Shippori+Mincho:wght@400;700&amp;family=Zen+Kaku+Gothic+New:wght@400;500;700&amp;family=Roboto:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "abyss-dark": "#070C21",
+                    "abyss-surface": "#0d1227",
+                    "abyss-container": "#191e34",
+                    "abyss-accent": "#0094F7",
+                    "abyss-accent-light": "#9fcaff",
+                    "abyss-light": "#EBF7FF",
+                    "abyss-outline": "#3f4752",
+                    "abyss-text": "#dde1ff",
+                    "abyss-muted": "#bfc7d5",
+                },
+                fontFamily: {
+                    "headline": ["Shippori Mincho", "Noto Serif JP", "serif"],
+                    "body": ["Zen Kaku Gothic New", "Manrope", "sans-serif"],
+                    "label": ["Roboto", "Inter", "sans-serif"]
+                },
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+    }
+    .glass-nav {
+        background: rgba(13, 18, 39, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+    .fluid-gradient-text {
+        background: linear-gradient(135deg, #9fcaff 0%, #0395f8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    body {
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        background-color: #070C21;
+        color: #dde1ff;
+    }
+    h1, h2, h3, .serif { font-family: 'Shippori Mincho', serif; }
+    .case-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .case-card:hover { transform: translateY(-8px); }
+    .case-card:hover .case-img { transform: scale(1.05); }
+    .case-img { transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+    .filter-btn.active { background: #0094F7; color: #fff; border-color: #0094F7; }
+    .metric-ring {
+        background: conic-gradient(#0094F7 var(--pct), rgba(255,255,255,0.08) 0deg);
+    }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .float-anim { animation: float 6s ease-in-out infinite; }
+    .stat-counter { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body class="bg-abyss-dark text-abyss-text selection:bg-abyss-accent/30">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 glass-nav shadow-[0_8px_32px_0_rgba(0,148,247,0.08)]">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-3">
+<a href="https://abyss-fluid-ai.vercel.app" class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-abyss-accent/20 flex items-center justify-center">
+    <span class="material-symbols-outlined text-abyss-accent text-2xl">waves</span>
+</div>
+<div class="flex flex-col">
+<span class="text-2xl font-serif tracking-tighter text-slate-50 leading-none">ABYSS</span>
+<span class="text-[10px] font-label tracking-widest text-abyss-accent uppercase">Fluid AI Agent â Itumo Inc.</span>
+</div>
+</a>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-300 hover:text-white transition-colors text-sm" href="https://abyss-fluid-ai.vercel.app#detection">æ¤ç¥å¯¾è±¡</a>
+<a class="text-slate-300 hover:text-white transition-colors text-sm" href="https://abyss-fluid-ai.vercel.app#technology">ãã¯ãã­ã¸ã¼</a>
+<a class="text-white font-bold text-sm border-b-2 border-abyss-accent pb-1" href="#">ã¦ã¼ã¹ã±ã¼ã¹</a>
+<a class="text-slate-300 hover:text-white transition-colors text-sm" href="https://abyss-fluid-ai.vercel.app#implementation">å°å¥</a>
+<a class="bg-abyss-accent text-white px-6 py-2 rounded-full font-bold text-sm hover:scale-95 transition-all duration-300" href="https://abyss-fluid-ai.vercel.app#contact">Contact</a>
+</div>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-20">
+<div class="absolute inset-0 z-0 bg-abyss-dark">
+    <div class="absolute top-1/4 -left-20 w-96 h-96 bg-abyss-accent/10 blur-[120px] rounded-full"></div>
+    <div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-abyss-accent/5 blur-[150px] rounded-full"></div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-40"></div>
+</div>
+<div class="relative z-10 max-w-5xl px-8 text-center space-y-8">
+    <div class="inline-flex items-center px-4 py-1.5 rounded-full border border-abyss-accent/40 bg-abyss-accent/5 backdrop-blur-sm">
+        <span class="text-abyss-accent text-xs font-label tracking-[0.2em] uppercase">Use Cases</span>
+    </div>
+    <h1 class="text-5xl md:text-7xl leading-tight font-headline text-white">
+        <span class="fluid-gradient-text">æµä½AI</span>ãå¤ããã<br class="hidden md:block"/>ç¾å ´ã®æªæ¥ã
+    </h1>
+    <p class="text-lg text-abyss-muted leading-relaxed font-body max-w-3xl mx-auto">
+        ææ°´å¦çããå®¶é»ã¾ã§ãABYSSã®æµä½ç¹åAIã¢ãã«ã¯ã<br class="hidden md:block"/>
+        ããããç£æ¥­ã®æµä½ç£è¦ãé©æ°ãã¾ãã
+    </p>
+</div>
+</section>
+
+<!-- Industry Filter + Stats Bar -->
+<section class="py-16 bg-abyss-dark border-t border-white/5">
+<div class="max-w-screen-2xl mx-auto px-8">
+    <!-- Filter Tabs -->
+    <div class="flex flex-wrap justify-center gap-3 mb-16">
+        <button class="filter-btn active px-5 py-2 rounded-full border border-abyss-accent/40 text-sm font-label transition-all hover:bg-abyss-accent/20" onclick="filterCases('all')">ãã¹ã¦</button>
+        <button class="filter-btn px-5 py-2 rounded-full border border-white/10 text-sm font-label text-abyss-muted transition-all hover:bg-white/5" onclick="filterCases('water')">ææ°´ã»æ°´å¦ç</button>
+        <button class="filter-btn px-5 py-2 rounded-full border border-white/10 text-sm font-label text-abyss-muted transition-all hover:bg-white/5" onclick="filterCases('river')">æ²³å·ã»ã¤ã³ãã©</button>
+        <button class="filter-btn px-5 py-2 rounded-full border border-white/10 text-sm font-label text-abyss-muted transition-all hover:bg-white/5" onclick="filterCases('energy')">ã¨ãã«ã®ã¼</button>
+        <button class="filter-btn px-5 py-2 rounded-full border border-white/10 text-sm font-label text-abyss-muted transition-all hover:bg-white/5" onclick="filterCases('consumer')">å®¶é»ã»ã³ã³ã·ã¥ã¼ãã¼</button>
+    </div>
+    <!-- Stats Bar -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+            <p class="text-4xl md:text-5xl font-label font-bold fluid-gradient-text stat-counter">92<span class="text-2xl">%</span></p>
+            <p class="text-abyss-muted text-sm mt-2">ç°å¸¸æ¤ç¥ç²¾åº¦</p>
+        </div>
+        <div>
+            <p class="text-4xl md:text-5xl font-label font-bold fluid-gradient-text stat-counter">1/3</p>
+            <p class="text-abyss-muted text-sm mt-2">ç¹æ¤ã³ã¹ãåæ¸</p>
+        </div>
+        <div>
+            <p class="text-4xl md:text-5xl font-label font-bold fluid-gradient-text stat-counter">24h</p>
+            <p class="text-abyss-muted text-sm mt-2">ä»¥åã«å°å¥å¯è½</p>
+        </div>
+        <div>
+            <p class="text-4xl md:text-5xl font-label font-bold fluid-gradient-text stat-counter">0</p>
+            <p class="text-abyss-muted text-sm mt-2">è¿½å ã»ã³ãµã¼</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Use Case 1: æ²æ®¿æ± ã¢ãã¿ãªã³ã° -->
+<section class="py-24 bg-abyss-dark relative overflow-hidden" data-category="water" id="case-settling">
+<div class="absolute top-0 right-0 w-[600px] h-[600px] bg-abyss-accent/5 blur-[150px] rounded-full translate-x-1/3 -translate-y-1/3"></div>
+<div class="max-w-screen-xl mx-auto px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <!-- Image -->
+        <div class="relative group order-2 lg:order-1">
+            <div class="absolute -inset-4 bg-abyss-accent/10 blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <div class="relative aspect-[4/3] rounded-2xl border border-white/10 bg-abyss-container overflow-hidden">
+                <!-- Placeholder for real image -->
+                <div class="absolute inset-0 bg-gradient-to-br from-abyss-accent/20 via-abyss-dark to-abyss-container flex items-center justify-center">
+                    <div class="text-center space-y-4">
+                        <span class="material-symbols-outlined text-6xl text-abyss-accent/40">water_drop</span>
+                        <p class="text-xs text-abyss-muted font-label tracking-wider uppercase">æ²æ®¿æ± ã¢ãã¿ãªã³ã°æ å</p>
+                        <p class="text-[10px] text-abyss-muted/50">640 x 480 â ãªã¢ã«ã¿ã¤ã è§£æãªã¼ãã¼ã¬ã¤</p>
+                    </div>
+                </div>
+                <!-- Video placeholder badge -->
+                <div class="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 bg-red-500/90 rounded-full">
+                    <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    <span class="text-white text-[10px] font-bold font-label">LIVE ANALYSIS</span>
+                </div>
+                <!-- Overlay metrics -->
+                <div class="absolute bottom-4 left-4 right-4 bg-abyss-dark/80 backdrop-blur-md rounded-xl p-4 border border-white/5">
+                    <div class="flex justify-between items-center text-xs font-label">
+                        <div><span class="text-abyss-muted">SSæ¿åº¦</span><br/><span class="text-abyss-accent font-bold text-lg">42 mg/L</span></div>
+                        <div><span class="text-abyss-muted">æ²ééåº¦</span><br/><span class="text-white font-bold text-lg">0.8 m/h</span></div>
+                        <div><span class="text-abyss-muted">ç°å¸¸ã¹ã³ã¢</span><br/><span class="text-green-400 font-bold text-lg">æ­£å¸¸</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Content -->
+        <div class="space-y-8 order-1 lg:order-2">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <span class="inline-block px-3 py-1 bg-abyss-accent text-white text-[10px] font-bold font-label rounded tracking-wider uppercase">ææ°´ã»æ°´å¦ç</span>
+                    <span class="inline-block px-3 py-1 border border-abyss-accent/30 text-abyss-accent text-[10px] font-label rounded tracking-wider">å®å°å¥äºä¾</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-headline text-white leading-tight">
+                    ææ°´å¦çæ½è¨­ã®<br/>æ²æ®¿æ± ã¢ãã¿ãªã³ã°
+                </h2>
+                   <p class="text-sm text-abyss-accent font-label tracking-wider">ã«ãã«é«ç å·¥å ´ â åå­¦ãã©ã³ãææ°´å¦ç</p>
+            </div>
+
+            <!-- Challenge / Solution / Result -->
+            <div class="space-y-6">
+                <div class="bg-abyss-container/60 border border-white/5 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-red-400 text-xl">warning</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-red-400 uppercase">Challenge â èª²é¡</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        åå­¦ãã©ã³ãã®ææ°´å¦çã«ããã¦ãæ²æ®¿æ± ã®æ±æ³¥çé¢ã¬ãã«ã¯æ°´è³ªã«ç´çµããéè¦ææ¨ããããå¾æ¥ã¯ä½æ¥­å¡ãå®æçã«ç®è¦ã»æ¡æ°´ã§ç¢ºèªãã¦ãããå¤éãä¼æ¥ã®å¤åãæãããããçªçºçãªæ±æ³¥æµåºã«ããç°å¢è¦å¶éåãªã¹ã¯ãå¸¸ã«å­å¨ãã¦ããã
+                    </p>
+                </div>
+
+                <div class="bg-abyss-container/60 border border-abyss-accent/10 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-abyss-accent text-xl">lightbulb</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-abyss-accent uppercase">Solution â ã½ãªã¥ã¼ã·ã§ã³</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        æ¢è¨­ã®ç£è¦ã«ã¡ã©æ åãABYSSã«æ¥ç¶ãæ²æ®¿æ± ã®æ°´é¢ç¶æã»æ¿åº¦å¤åã»æ±æ³¥çé¢ã¬ãã«ããªã¢ã«ã¿ã¤ã ã§AIè§£æãç©çæ³åãã¼ã¹ã®ã¢ãã«ãæ²ééåº¦ãã¿ã¼ã³ãå­¦ç¿ããéå¸¸ã®å¤åã¨ç°å¸¸ãé«ç²¾åº¦ã«è­å¥ãé¾å¤è¶éæã«ã¯Slackã»ã¡ã¼ã«ã§å³åº§ã«ã¢ã©ã¼ãéä¿¡ã
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-r from-abyss-accent/10 to-transparent border border-abyss-accent/20 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-green-400 text-xl">check_circle</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-green-400 uppercase">Results â ææ</h4>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label fluid-gradient-text">85%</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">ç®è¦ç¹æ¤åæ¸</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label fluid-gradient-text">3iâ5s</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">ç°å¸¸æ¤ç¥æé</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label fluid-gradient-text">0ä»¶</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">ç°å¢éåï¼å°å¥å¾ï¼</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Divider -->
+<div class="w-full h-[1px] bg-gradient-to-r from-transparent via-abyss-accent/30 to-transparent"></div>
+
+<!-- Use Case 2: ææ°æ§½ã®ç¶æç£è¦ -->
+<section class="py-24 bg-abyss-dark relative overflow-hidden" data-category="water" id="case-aeration">
+<div class="max-w-screen-xl mx-auto px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <!-- Content -->
+        <div class="space-y-8">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <span class="inline-block px-3 py-1 bg-abyss-accent text-white text-[10px] font-bold font-label rounded tracking-wider uppercase">ææ°´ã»æ°´å¦ç</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-headline text-white leading-tight">
+                    ææ°æ§½ã®<br/>ç¶æç£è¦
+                </h2>
+                <p class="text-sm text-abyss-accent font-label tracking-wider">ä¸æ°´å¦çæ½è¨­ â æ´»æ§æ±æ³¥æ³ãã­ã»ã¹æé©å</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-abyss-container/60 border border-white/5 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-red-400 text-xl">warning</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-red-400 uppercase">Challenge</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        ææ°æ§½ã®æ³¡ã®ç¶æã¯æ´»æ§æ±æ³¥ã®å¥å¨æ§ãç¤ºãéè¦ãªãã­ã¡ã¼ã¿ã¼ãæ³¡ãç²ããåä¸ã§ãªããéå°ã«çºçãããªã©ã®å¤åã¯å¾®çç©ãã©ã³ã¹ã®å´©å£ãæå³ãããããããæ³¡ã®ç¶æã¯æ°å¤åãå°é£ã§ãç¯ç·´ãªãã¬ã¼ã¿ã¼ã®ãçµé¨ã¨åãã«é ¼ã£ãç£è¦ãè¡ããã¦ãããäººã«ãã£ã¦å¤æ­åºæºãç°ãªããã¨ãèª²é¡ã ã£ãã
+                    </p>
+                </div>
+
+                <div class="bg-abyss-container/60 border border-abyss-accent/10 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-abyss-accent text-xl">lightbulb</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-abyss-accent uppercase">Solution</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        ææ°æ§½ä¸é¨ã«è¨­ç½®æ¸ã¿ã®ã«ã¡ã©æ åãABYSSã«æ¥ç¶ãæ³¡ã®å¤§ããã»å¯åº¦ã»åå¸ãã¿ã¼ã³ã»è²èª¿å¤åããã¬ã¼ã ãã¨ã«è§£æãããæ­£å¸¸ææ°ãã¿ã¼ã³ãããã®é¸è±åº¦ãã¹ã³ã¢ãªã³ã°ãæ°æ³¡å¾ã®ä¸åä¸åããã£ã©ã¡ã³ãç¶æ³¡ã®çºçãæ©æã«æ¤åºããMLSSæ¿åº¦èª¿æ´ãDOå¶å¾¡ã®æé©åãæ¯æ´ã
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-r from-abyss-accent/10 to-transparent border border-abyss-accent/20 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-green-400 text-xl">check_circle</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-green-400 uppercase">Results</h4>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label fluid-gradient-text">40%</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">ææ°ã¨ãã«ã®ã¼åæ¸</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label fluid-gradient-text">2æ¥å</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">ãã«ã­ã³ã°äºåæ¤ç¥</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label fluid-gradient-text">çµ±ä¸</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">å¤æ­åºæºã®æ¨æºå</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Image -->
+        <div class="relative group">
+            <div class="relative aspect-[4/3] rounded-2xl border border-white/10 bg-abyss-container overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-abyss-dark to-abyss-container flex items-center justify-center">
+                    <div class="text-center space-y-4">
+                        <span class="material-symbols-outlined text-6xl text-abyss-accent/40">bubble_chart</span>
+                        <p class="text-xs text-abyss-muted font-label tracking-wider uppercase">ææ°æ§½ æ³¡ãã¿ã¼ã³è§£ææ å</p>
+                        <p class="text-[10px] text-abyss-muted/50">AIæ³¡å¾ã»å¯åº¦ãã¼ãããããªã¼ãã¼ã¬ã¤</p>
+                    </div>
+                </div>
+                <div class="absolute top-4 right-4 bg-abyss-dark/80 backdrop-blur-md rounded-lg p-3 border border-white/5">
+                    <div class="text-[10px] font-label text-abyss-muted">æ³¡å¾åå¸</div>
+                    <div class="flex items-end gap-1 mt-2 h-8">
+                        <div class="w-2 bg-abyss-accent/60 rounded-t" style="height:30%"></div>
+                        <div class="w-2 bg-abyss-accent/80 rounded-t" style="height:60%"></div>
+                        <div class="w-2 bg-abyss-accent rounded-t" style="height:90%"></div>
+                        <div class="w-2 bg-abyss-accent/80 rounded-t" style="height:70%"></div>
+                        <div class="w-2 bg-abyss-accent/50 rounded-t" style="height:40%"></div>
+                        <div class="w-2 bg-abyss-accent/30 rounded-t" style="height:20%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<div class="w-full h-[1px] bg-gradient-to-r from-transparent via-abyss-accent/30 to-transparent"></div>
+
+<!-- Use Case 3: æ²³å·ã®æµéã¢ãã¿ãªã³ã° -->
+<section class="py-24 bg-abyss-dark relative overflow-hidden" data-category="river" id="case-river">
+<div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/5 blur-[150px] rounded-full -translate-x-1/3 translate-y-1/3"></div>
+<div class="max-w-screen-xl mx-auto px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <!-- Image -->
+        <div class="relative group order-2 lg:order-1">
+            <div class="relative aspect-[4/3] rounded-2xl border border-white/10 bg-abyss-container overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-cyan-900/20 via-abyss-dark to-blue-900/20 flex items-center justify-center">
+                    <div class="text-center space-y-4">
+                        <span class="material-symbols-outlined text-6xl text-cyan-400/40">water</span>
+                        <p class="text-xs text-abyss-muted font-label tracking-wider uppercase">æ²³å·æµéã¢ãã¿ãªã³ã°æ å</p>
+                        <p class="text-[10px] text-abyss-muted/50">æµéãã¯ãã«ãã£ã¼ã«ãå¯è¦å</p>
+                    </div>
+                </div>
+                <!-- Flow vector overlay -->
+                <div class="absolute bottom-4 left-4 right-4 bg-abyss-dark/80 backdrop-blur-md rounded-xl p-4 border border-white/5">
+                    <div class="flex justify-between items-center text-xs font-label">
+                        <div><span class="text-abyss-muted">è¡¨é¢æµé</span><br/><span class="text-cyan-400 font-bold text-lg">2.3 m/s</span></div>
+                        <div><span class="text-abyss-muted">æ¨å®æµé</span><br/><span class="text-white font-bold text-lg">85.2 mÂ³/s</span></div>
+                        <div><span class="text-abyss-muted">æ°´ä½å¤å</span><br/><span class="text-yellow-400 font-bold text-lg">+12cm/h</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Content -->
+        <div class="space-y-8 order-1 lg:order-2">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <span class="inline-block px-3 py-1 bg-cyan-500 text-white text-[10px] font-bold font-label rounded tracking-wider uppercase">æ²³å·ã»ã¤ã³ãã©</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-headline text-white leading-tight">
+                    æ²³å·ã®<br/>æµéã¢ãã¿ãªã³ã°
+                </h2>
+                <p class="text-sm text-abyss-accent font-label tracking-wider">å½åäº¤éçç®¡è½æ²³å· â éæ¥è§¦åæµéè¨æ¸¬</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-abyss-container/60 border border-white/5 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-red-400 text-xl">warning</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-red-400 uppercase">Challenge</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        å¾æ¥ã®æ²³å·æµéè¨æ¸¬ã¯æµ¸æ°´å¼ã®æµéè¨ããã­ã¼ããä½¿ç¨ãã¦ãããå¢æ°´æã«ã¯è¨å¨ã®ç ´æã»æµå¤±ãªã¹ã¯ããããããæ´ªæ°´æããéè¦ãªãã¼ã¿ãåå¾ã§ããªããè¶é³æ³¢ãããã©ã¼å¼ãé«ã³ã¹ãã§è¨­ç½®ç®æãéãããé¢çãªæµæ³ææ¡ãå°é£ã ã£ãã
+                    </p>
+                </div>
+
+                <div class="bg-abyss-container/60 border border-abyss-accent/10 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-abyss-accent text-xl">lightbulb</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-abyss-accent uppercase">Solution</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        æ©æ¢ãå ¤é²ä¸ã®æ¢è¨­CCTVã«ã¡ã©æ åãABYSSã«æ¥ç¶ãæ°´é¢ã®å¾®ç´°ãªãã¯ã¹ãã£å¤åããè¡¨é¢æµéãã¯ãã«ãæ¨å®ããæ­é¢å½¢ç¶ãã¼ã¿ã¨çµã¿åããã¦æµéãç®åºãå¢æ°´æã®æ³¡ã»æ¼æµç©ã®åããããæµéãè£å®æ¨å®ãåã®åå°ããã¤ãºãç©çã¢ãã«ã§é¤å»ããå¤éã§ãèµ¤å¤æ åã§è¨æ¸¬å¯è½ã
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-r from-cyan-500/10 to-transparent border border-cyan-500/20 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-green-400 text-xl">check_circle</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-green-400 uppercase">Results</h4>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label text-cyan-400">Â±8%</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">è¨æ¸¬ç²¾åº¦ï¼ADCPæ¯ï¼</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label text-cyan-400">1/10</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">å°å¥ã³ã¹ã</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label text-cyan-400">æ´ªæ°´æã</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">é£ç¶è¨æ¸¬å¯è½</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<div class="w-full h-[1px] bg-gradient-to-r from-transparent via-abyss-accent/30 to-transparent"></div>
+
+<!-- Use Case 4: æ°´åçºé»ã®æ°´æµæé©å -->
+<section class="py-24 bg-abyss-dark relative overflow-hidden" data-category="energy" id="case-hydro">
+<div class="max-w-screen-xl mx-auto px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <!-- Content -->
+        <div class="space-y-8">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <span class="inline-block px-3 py-1 bg-emerald-500 text-white text-[10px] font-bold font-label rounded tracking-wider uppercase">ã¨ãã«ã®ã¼</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-headline text-white leading-tight">
+                    æ°´åçºé»ã®<br/>æ°´æµæé©å
+                </h2>
+                <p class="text-sm text-abyss-accent font-label tracking-wider">ä¸­å°æ°´åçºé»æ â åæ°´å¹çã®æå¤§å</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-abyss-container/60 border border-white/5 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-red-400 text-xl">warning</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-red-400 uppercase">Challenge</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        ä¸­å°æ°´åçºé»ã§ã¯ãåæ°´å£ã®æµæ³å¤åï¼æ¸®ã®çºçãã´ãè©¦ã¾ããæ°´ä½å¤åï¼ãã¿ã¼ãã³å¹çã«ç´çµããããããå±±éé¨ã®åæ°´å£ã¯é éå°ã«ãããæ°´ä½è¨ã ãã§ã¯æµãã®è³ªçãªå¤åï¼æ¸®ãåæµãç©ºæ°å·»ãè¾¼ã¿ï¼ãææ¡ã§ãããã¿ã¼ãã³ã®å¹çä½ä¸ãæå·ãªã¹ã¯ãè¦éãããã¦ããã
+                    </p>
+                </div>
+
+                <div class="bg-abyss-container/60 border border-abyss-accent/10 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-abyss-accent text-xl">lightbulb</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-abyss-accent uppercase">Solution</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        åæ°´å£ã»æ¾æ°´è·¯ã®ã«ã¡ã©æ åãABYSSãå¸¸æè§£æãæ¸¦ã®çºçãã¿ã¼ã³ãã¹ã¯ãªã¼ã³ã¸ã®ã´ãå ç©åº¦ãæ°´é¢ã®ä¹±ãåº¦åãããªã¢ã«ã¿ã¤ã å®éåãæµæ³ãã¼ã¿ã¨ã¿ã¼ãã³åºåãç¸é¢åæããåæ°´ã²ã¼ãã®æé©éåº¦ãã¬ã³ã¡ã³ããå­£ç¯ã»å¤©åãã¿ã¼ã³ã®å­¦ç¿ã«ãããåºæ°´åã®äºé²çãªã²ã¼ãæä½ãææ¡ã
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-r from-emerald-500/10 to-transparent border border-emerald-500/20 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-green-400 text-xl">check_circle</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-green-400 uppercase">Results</h4>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label text-emerald-400">+12%</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">å¹´éçºé»éåä¸</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label text-emerald-400">70%æ¸</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">ç¾å°å·¡ååæ°</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label text-emerald-400">äºé²ç</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">ã²ã¼ãæä½å®ç¾</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Image -->
+        <div class="relative group">
+            <div class="relative aspect-[4/3] rounded-2xl border border-white/10 bg-abyss-container overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-900/20 via-abyss-dark to-abyss-container flex items-center justify-center">
+                    <div class="text-center space-y-4">
+                        <span class="material-symbols-outlined text-6xl text-emerald-400/40">electric_bolt</span>
+                        <p class="text-xs text-abyss-muted font-label tracking-wider uppercase">åæ°´å£æµæ³ç£è¦æ å</p>
+                        <p class="text-[10px] text-abyss-muted/50">æ¸¦æ¤åºã»ã´ãå ç©ãã¼ãããã</p>
+                    </div>
+                </div>
+                <div class="absolute top-4 left-4 bg-abyss-dark/80 backdrop-blur-md rounded-lg p-3 border border-white/5">
+                    <div class="text-[10px] font-label text-abyss-muted mb-1">ã¿ã¼ãã³å¹ç</div>
+                    <div class="relative w-16 h-16">
+                        <svg class="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
+                            <circle cx="32" cy="32" r="28" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="4"/>
+                            <circle cx="32" cy="32" r="28" fill="none" stroke="#10b981" stroke-width="4" stroke-dasharray="155" stroke-dashoffset="22" stroke-linecap="round"/>
+                        </svg>
+                        <span class="absolute inset-0 flex items-center justify-center text-emerald-400 font-bold text-sm font-label">87%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<div class="w-full h-[1px] bg-gradient-to-r from-transparent via-abyss-accent/30 to-transparent"></div>
+
+<!-- Use Case 5: å®¶åº­ç¨æ´æ¿¯æ©ã®å¸ç¨®é¡ã»æ±ãæ¤ç¥ -->
+<section class="py-24 bg-abyss-dark relative overflow-hidden" data-category="consumer" id="case-laundry">
+<div class="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-500/5 blur-[120px] rounded-full -translate-x-1/3"></div>
+<div class="max-w-screen-xl mx-auto px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <!-- Image -->
+        <div class="relative group order-2 lg:order-1">
+            <div class="relative aspect-[4/3] rounded-2xl border border-white/10 bg-abyss-container overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-abyss-dark to-abyss-container flex items-center justify-center">
+                    <div class="text-center space-y-4">
+                        <span class="material-symbols-outlined text-6xl text-purple-400/40">local_laundry_service</span>
+                        <p class="text-xs text-abyss-muted font-label tracking-wider uppercase">æ´æ¿¯æ©å æµä½è§£ææ å</p>
+                        <p class="text-[10px] text-abyss-muted/50">å¸ç¨®é¡è­å¥ã»æ±ãåº¦ã¹ã³ã¢ãªã³ã°</p>
+                    </div>
+                </div>
+                <div class="absolute bottom-4 left-4 right-4 bg-abyss-dark/80 backdrop-blur-md rounded-xl p-4 border border-white/5">
+                    <div class="flex justify-between items-center text-xs font-label">
+                        <div><span class="text-abyss-muted">å¸ç¨®é¡</span><br/><span class="text-purple-400 font-bold">ç¶¿ / ããã </span></div>
+                        <div><span class="text-abyss-muted">æ±ãåº¦</span><br/><span class="text-white font-bold">ä¸­ç¨åº¦</span></div>
+                        <div><span class="text-abyss-muted">æ¨å¥¨ã¢ã¼ã</span><br/><span class="text-purple-400 font-bold">æ¨æº 38Â°C</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Content -->
+        <div class="space-y-8 order-1 lg:order-2">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <span class="inline-block px-3 py-1 bg-purple-500 text-white text-[10px] font-bold font-label rounded tracking-wider uppercase">å®¶é»ã»ã³ã³ã·ã¥ã¼ãã¼</span>
+                    <span class="inline-block px-3 py-1 border border-purple-400/30 text-purple-400 text-[10px] font-label rounded tracking-wider">åãåãããã¼ã¹</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-headline text-white leading-tight">
+                    å®¶åº­ç¨æ´æ¿¯æ©ã®<br/>å¸ç¨®é¡ã»æ±ãæ¤ç¥
+                </h2>
+                <p class="text-sm text-abyss-accent font-label tracking-wider">ãµã ã¹ã³æ¥æ¬ç ç©¶æ â æ¬¡ä¸ä»£ã¹ãã¼ãå®¶é»</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-abyss-container/60 border border-white/5 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-red-400 text-xl">warning</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-red-400 uppercase">Challenge</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        ç¾è¡ã®æ´æ¿¯æ©ã¯ééã»ã³ãµã¼ã¨æ°´ä½ã»ã³ãµã¼ã§è² è·éãå¤å®ãã¦ããããå¸ã®ç´ æãæ±ãã®ç¨®é¡ã»ç¨åº¦ã¾ã§ã¯ææ¡ã§ããªããçµæã¨ãã¦éå°ãªæ´å¤ã»æ°´ã»æéãæ¶è²»ãããããªã±ã¼ãç´ æã®æå·ãçºçãã¦ã¼ã¶ã¼ãæåã§æ´æ¿¯ã¢ã¼ããé¸æããä¸ä¾¿ããè§£æ¶ã§ãã¦ããªãã£ãã
+                    </p>
+                </div>
+
+                <div class="bg-abyss-container/60 border border-abyss-accent/10 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-abyss-accent text-xl">lightbulb</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-abyss-accent uppercase">Solution</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        æ´æ¿¯æ§½åã«å°åã«ã¡ã©ãè¨­ç½®ããæ³¨æ°´åæã®æ°´æµãã¿ã¼ã³ã¨å¸ã®åããABYSSã§è§£æãæ°´ã®æµ¸ééåº¦ã»å¸ã®ãã¬ã¼ãç¹æ§ã»è²å½©å¤åããç´ æãæ¨å®ããæ´ãå§ãã®æ¿åº¦å¤åæ²ç·ããæ±ãã¬ãã«ãèªåå¤å®ãæé©ãªæ°´æ¸©ã»æ´å¤éã»åè»¢ãã¿ã¼ã³ã»æéããªã¢ã«ã¿ã¤ã ã§å¶å¾¡ã
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-r from-purple-500/10 to-transparent border border-purple-500/20 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-green-400 text-xl">check_circle</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-green-400 uppercase">Expected Results</h4>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label text-purple-400">30%</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">æ°´ã»æ´å¤ä½¿ç¨éåæ¸</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label text-purple-400">èªå</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">æé©ã¢ã¼ãé¸æ</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label text-purple-400">è¡£é¡</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">æå·ãªã¹ã¯ä½æ¸</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<div class="w-full h-[1px] bg-gradient-to-r from-transparent via-abyss-accent/30 to-transparent"></div>
+
+<!-- Use Case 6: å·¥å ´ææ°´ã®ãªã¢ã«ã¿ã¤ã ç°å¸¸æ¤ç¥ -->
+<section class="py-24 bg-abyss-dark relative overflow-hidden" data-category="water" id="case-factory">
+<div class="max-w-screen-xl mx-auto px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <!-- Content -->
+        <div class="space-y-8">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <span class="inline-block px-3 py-1 bg-abyss-accent text-white text-[10px] font-bold font-label rounded tracking-wider uppercase">ææ°´ã»æ°´å¦ç</span>
+                    <span class="inline-block px-3 py-1 border border-orange-400/30 text-orange-400 text-[10px] font-label rounded tracking-wider">ç°å¢ã³ã³ãã©ã¤ã¢ã³ã¹</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-headline text-white leading-tight">
+                    å·¥å ´ææ°´ã®<br/>ãªã¢ã«ã¿ã¤ã ç°å¸¸æ¤ç¥
+                </h2>
+                <p class="text-sm text-abyss-accent font-label tracking-wider">è£½é æ¥­ â ææ°´åºæºã®èªåéµå®</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-abyss-container/60 border border-white/5 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-red-400 text-xl">warning</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-red-400 uppercase">Challenge</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        å·¥å ´ææ°´ã®æ°´è³ªåºæºéåã¯ä¼æ¥­ã¤ã¡ã¼ã¸ã¨äºæ¥­ç¶ç¶ã«ç´çµããéå¤§ãªã¹ã¯ããããå¾æ¥ã®æ°´è³ªåæã¯æ¡æ°´âã©ãå æã§å¥°æéãæ°æ¥ã®ã¿ã¤ã ã©ã°ããããç°å¸¸ãæ¤åºãããæç¹ã§ã¯æ¢ã«åºæºå¤è¶éã®ææ°´ãæ²³å·ã«æµåºãã¦ãããpHè¨ã»å°é»çè¨ã ãã§ã¯æ²¹åæ··å¥ãå¾®ç´°ãªæ¿åº¦å¤åãæããããªãå ´åãå¤ãã
+                    </p>
+                </div>
+
+                <div class="bg-abyss-container/60 border border-abyss-accent/10 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-abyss-accent text-xl">lightbulb</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-abyss-accent uppercase">Solution</h4>
+                    </div>
+                    <p class="text-abyss-muted text-sm leading-relaxed">
+                        æçµæ¾æµå£ã®ã«ã¡ã©æ åãABYSSã24æéç£è¦ãææ°´ã®è²èª¿å¤åï¼RGB/HSVè§£æï¼ãæ²¹èã®è¹è²ãã¿ã¼ã³æ¤åºãæ³¡ã®çºçãã¿ã¼ã³ãæµ®éç©ã®ç¨®é¡è­å¥ããªã¢ã«ã¿ã¤ã ã§å®è¡ãæ­£å¸¸æã®æ åãã¿ã¼ã³ãèªå·±å­¦ç¿ããé¸è±ãç§åä½ã§æ¤ç¥ãæ¢è¨­ã®pHè¨ã»CODè¨ãã¼ã¿ã¨ãé£æºããæ åæå ±ã¨æ°å¤ãã¼ã¿ã®ã¯ã­ã¹ããªãã¼ã·ã§ã³ã§èª¤å °çãæå°åã
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-r from-abyss-accent/10 to-transparent border border-abyss-accent/20 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="material-symbols-outlined text-green-400 text-xl">check_circle</span>
+                        <h4 class="text-sm font-bold font-label tracking-wider text-green-400 uppercase">Results</h4>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label fluid-gradient-text">1ç§</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">ç°å¸¸æ¤ç¥ã¬ã¤ãã³ã·</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label fluid-gradient-text">96%</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">æ²¹åæ¤ç¥ç²¾åº¦</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold font-label fluid-gradient-text">&lt;2%</p>
+                            <p class="text-[11px] text-abyss-muted mt-1">èª¤å ±ç</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Image -->
+        <div class="relative group">
+            <div class="relative aspect-[4/3] rounded-2xl border border-white/10 bg-abyss-container overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-orange-900/10 via-abyss-dark to-abyss-container flex items-center justify-center">
+                    <div class="text-center space-y-4">
+                        <span class="material-symbols-outlined text-6xl text-orange-400/40">factory</span>
+                        <p class="text-xs text-abyss-muted font-label tracking-wider uppercase">å·¥å ´ææ°´ ç°å¸¸æ¤ç¥ããã·ã¥ãã¼ã</p>
+                        <p class="text-[10px] text-abyss-muted/50">è²èª¿ã»æ²¹èã»æ³¡ãã¿ã¼ã³ãã«ãè§£æ</p>
+                    </div>
+                </div>
+                <!-- Alert simulation -->
+                <div class="absolute top-4 right-4 bg-red-500/20 backdrop-blur-md rounded-lg p-3 border border-red-500/30">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                        <span class="text-red-400 text-[10px] font-bold font-label">ALERT DEMO</span>
+                    </div>
+                    <p class="text-[9px] text-red-300/80 mt-1">æ²¹èæ¤åº â æ¾æµå£A</p>
+                </div>
+                <!-- Timeline -->
+                <div class="absolute bottom-4 left-4 right-4 bg-abyss-dark/80 backdrop-blur-md rounded-xl p-3 border border-white/5">
+                    <div class="text-[10px] font-label text-abyss-muted mb-2">éå»24h ç°å¸¸ã¹ã³ã¢æ¨ç§»</div>
+                    <div class="flex items-end gap-0.5 h-6">
+                        <div class="flex-1 bg-green-500/40 rounded-t" style="height:15%"></div>
+                        <div class="flex-1 bg-green-500/40 rounded-t" style="height:10%"></div>
+                        <div class="flex-1 bg-green-500/40 rounded-t" style="height:20%"></div>
+                        <div class="flex-1 bg-green-500/40 rounded-t" style="height:12%"></div>
+                        <div class="flex-1 bg-green-500/40 rounded-t" style="height:18%"></div>
+                        <div class="flex-1 bg-green-500/40 rounded-t" style="height:25%"></div>
+                        <div class="flex-1 bg-yellow-500/60 rounded-t" style="height:45%"></div>
+                        <div class="flex-1 bg-red-500/70 rounded-t" style="height:85%"></div>
+                        <div class="flex-1 bg-yellow-500/60 rounded-t" style="height:40%"></div>
+                        <div class="flex-1 bg-green-500/40 rounded-t" style="height:15%"></div>
+                        <div class="flex-1 bg-green-500/40 rounded-t" style="height:10%"></div>
+                        <div class="flex-1 bg-green-500/40 rounded-t" style="height:8%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- Cross-Industry Summary -->
+<section class="py-24 bg-[#EBF7FF]">
+<div class="max-w-screen-xl mx-auto px-8">
+    <div class="text-center mb-16">
+        <span class="text-abyss-accent font-label text-sm tracking-[0.3em] uppercase mb-4 block">Why ABYSS</span>
+        <h2 class="text-4xl md:text-5xl font-headline text-slate-900 leading-tight">
+            ããããæµä½ã®èª¬é¡ã«ã<br/>ã²ã¨ã¤ã®ãã©ãããã©ã¼ã ã
+        </h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-10 rounded-xl hover:shadow-2xl transition-all duration-500 group">
+            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-8 group-hover:bg-abyss-accent group-hover:text-white transition-all">
+                <span class="material-symbols-outlined text-3xl text-abyss-accent group-hover:text-white">videocam</span>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-4">æ¢è¨­ã«ã¡ã©æ´»ç¨</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">ç£è¦ã«ã¡ã©ã»å·¥ç¨ç¢ºèªã«ã¡ã©ãªã©ãæ¢ã«è¨­ç½®ããã¦ããã«ã¡ã©æ åããã®ã¾ã¾å©ç¨ãè¿½å ãã¼ãã¦ã§ã¢ã®è³¼å¥ã»è¨­ç½®ã¯ä¸è¦ã</p>
+        </div>
+        <div class="bg-white p-10 rounded-xl hover:shadow-2xl transition-all duration-500 group">
+            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-8 group-hover:bg-abyss-accent group-hover:text-white transition-all">
+                <span class="material-symbols-outlined text-3xl text-abyss-accent group-hover:text-white">psychology</span>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-4">ç©çæ³åãã¼ã¹AI</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">ããã¨ã¼ã¹ãã¼ã¯ã¹æ¹ç¨å¼ç­ã®æµä½åå­¦ç¥è¦ãçµã¿è¾¼ãã ç¬èªã¢ãã«ãæ±ç¨ç»åAIã§ã¯ä¸å¯è½ãªãæµä½ç¹æã®ç°å¸¸ãé«ç²¾åº¦æ¤ç¥ã</p>
+        </div>
+        <div class="bg-white p-10 rounded-xl hover:shadow-2xl transition-all duration-500 group">
+            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-8 group-hover:bg-abyss-accent group-hover:text-white transition-all">
+                <span class="material-symbols-outlined text-3xl text-abyss-accent group-hover:text-white">speed</span>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-4">å³æ¥å°å¥ã»å³æ¥å¹æ</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">RTSPã¹ããªã¼ã æ¥ç¶ã§æç­24æéä»¥åã«ç¨¼åéå§ãå¤§è¦æ¨¡ãªã·ã¹ãã æ¹ä¿®ãªãã§ãæ¢å­ã¤ã³ãã©ã«å¾ä»ãå°å¥ãå¯è½ã</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-40 bg-abyss-surface relative overflow-hidden" id="contact">
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-abyss-accent/20 blur-[180px] rounded-[100%] opacity-50"></div>
+<div class="max-w-3xl mx-auto px-8 text-center relative z-10">
+<h2 class="text-4xl md:text-5xl font-headline mb-8">ãå®¢æ§ã®æµä½èª²é¡ã<br/>ãèãããã ããã</h2>
+<p class="text-abyss-muted mb-12 leading-relaxed">
+    ãææã¡ã®ç£è¦ã«ã¡ã©æ åãããABYSSãã©ã®ç¨åº¦ã®ç²¾åº¦ã§æ¤ç¥å¯è½ãã<br class="hidden md:block"/>
+    ã¨ã³ã¸ãã¢ãç¡æã§ãã£ã¸ããªãã£è¨ºæ­ãè¡ãã¾ãã
+</p>
+<div class="flex flex-col md:flex-row gap-6 justify-center">
+    <a href="https://abyss-fluid-ai.vercel.app#contact" class="px-10 py-4 bg-abyss-accent text-white rounded-full font-bold text-lg hover:shadow-[0_0_30px_rgba(0,148,247,0.4)] transition-all duration-500">
+        ç¡æè¨ºæ­ãç³ãè¾¼ã
+    </a>
+    <a href="https://abyss-fluid-ai.vercel.app" class="px-10 py-4 border border-abyss-outline text-white rounded-full font-bold text-lg hover:bg-white/5 transition-all">
+        ããããã¼ã¸ã¸æ»ã
+    </a>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-[#050A18] pt-20 pb-10 border-t border-white/5">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 px-8 max-w-screen-2xl mx-auto">
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-abyss-accent/20 flex items-center justify-center">
+    <span class="material-symbols-outlined text-abyss-accent text-lg">waves</span>
+</div>
+<span class="text-xl font-serif text-slate-100">ABYSS</span>
+</div>
+<div class="space-y-2">
+<p class="text-slate-500 font-label text-sm">Itumo Inc. Fluid AI Laboratory</p>
+<p class="text-slate-500 text-sm">ã100-0005 æ±äº¬é½åä»£ç°åºä¸¸ã®å</p>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-100 text-sm font-bold">Solutions</h4>
+<a class="text-slate-500 hover:text-blue-300 transition-colors text-sm" href="https://abyss-fluid-ai.vercel.app#detection">æ¤ç¥å¯¾è±¡</a>
+<a class="text-slate-500 hover:text-blue-300 transition-colors text-sm" href="https://abyss-fluid-ai.vercel.app#technology">ãã¯ãã­ã¸ã¼</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-100 text-sm font-bold">Company</h4>
+<a class="text-slate-500 hover:text-blue-300 transition-colors text-sm font-bold" href="#">ã¦ã¼ã¹ã±ã¼ã¹</a>
+<a class="text-slate-500 hover:text-blue-300 transition-colors text-sm" href="#">å°å¥äºä¾</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-100 text-sm font-bold">Legal</h4>
+<a class="text-slate-500 hover:text-blue-300 transition-colors text-sm" href="#">Privacy Policy</a>
+</div>
+</div>
+</div>
+<div class="max-w-screen-2xl mx-auto px-8 mt-20 pt-10 border-t border-white/5">
+<p class="text-slate-600 text-[10px] font-label tracking-widest uppercase">&copy; 2024 Itumo Inc. ABYSS Fluid AI</p>
+</div>
+</footer>
+
+<script>
+function filterCases(category) {
+    // Update active filter button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-abyss-accent', 'text-white', 'border-abyss-accent');
+        btn.classList.add('border-white/10', 'text-abyss-muted');
+    });
+    event.target.classList.add('active');
+
+    // Filter case sections
+    const sections = document.querySelectorAll('[data-category]');
+    sections.forEach(section => {
+        if (category === 'all' || section.dataset.category === category) {
+            section.style.display = '';
+            section.style.opacity = '1';
+        } else {
+            section.style.display = 'none';
+            section.style.opacity = '0';
+        }
+    });
+
+    // Also show/hide dividers
+    const dividers = document.querySelectorAll('[data-category] + div');
+}
+
+// Intersection Observer for fade-in
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+});
+</script>
+
+</body>
+</html>
